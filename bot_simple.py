@@ -7,7 +7,7 @@ def main(argv):
 	period = 10
 	pair = "ETH_BTC"
 	prices = []
-	maxTransDiff = 1
+	maxTransDiff = 9999999
 	currentMovingAverage = 0
 	lengthOfMA = 0
 	historicalData = False
@@ -21,14 +21,14 @@ def main(argv):
 	selling = []
 
 	try:
-		opts, args = getopt.getopt(argv,"h:p:c:n:q:",["period=","currency=","points="])
+		opts, args = getopt.getopt(argv,"h:p:c:n:q:d:",["period=","currency=","points="])
 	except getopt.GetoptError:
-		print('bot_simple.py -p <period length> -c <currency pair> -n <period of moving average>')
+		print('bot_simple.py -p <period length> -c <currency pair> -n <period of moving average> -q <quantity of the indicated currency> -d <max difference between sell and buy transactions>')
 		sys.exit(2)
 
 	for opt, arg in opts:
 		if opt == '-h':
-			print('bot_simple.py -p <period length> -c <currency pair> -n <period of moving average>')
+			print('bot_simple.py -p <period length> -c <currency pair> -n <period of moving average> -q <quantity of the indicated currency> -d <max difference between sell and buy transactions>')
 			sys.exit()
 		elif opt in ("-p", "--period"):
 			if (int(arg) in [300,900,1800,7200,14400,86400]):
@@ -42,6 +42,8 @@ def main(argv):
 			lengthOfMA = int(arg)
 		elif opt in ("-q", "--quantity"):
 			quant = float(arg)
+		elif opt in ("-d"):
+			maxTransDiff = int(arg)
 
 
 	conn = poloniex('key goes here','key goes here') # To try without keys substitute by: conn = poloniex()
